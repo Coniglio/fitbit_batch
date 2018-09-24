@@ -1,5 +1,5 @@
 import datetime
-import fitbit
+from fitbit import Fitbit
 
 if __name__ == '__main__':
     fitbit = Fitbit()

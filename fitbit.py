@@ -14,12 +14,12 @@ class Fitbit:
         self.access_token = inifile.get('fitbit', 'access_token')
         self.refresh_token = inifile.get('fitbit', 'refresh_token')
 
-        self.authd_client = fitbit.Fitbit(client_id, client_secret, access_token=access_token, refresh_token=refresh_token)
+        self.authd_client = fitbit.Fitbit(self.client_id, self.client_secret, access_token=self.access_token, refresh_token=self.refresh_token)
 
     def get_heart_rate(self, date):
 
         
-        data_sec = authd_client.intraday_time_series('activities/heart', "{0:%Y-%m-%d}".format(date), detail_level='1sec')
+        data_sec = self.authd_client.intraday_time_series('activities/heart', "{0:%Y-%m-%d}".format(date), detail_level='1sec')
         rt', DATE, detail_level='1sec')
         heart_sec = data_sec["activities-heart-intraday"]["dataset"]
         return heart_sec
