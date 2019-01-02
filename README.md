@@ -1,2 +1,2 @@
 # fitbit_batch
-Fitbitからの心拍数取得とMongoDBへのデータ格納およびKafkaへのメッセージ書き込み
+Fitbitからの心拍数取得とMySQLへのデータ格納
