@@ -9,7 +9,7 @@ import (
 )
 
 type Heartrate struct {
-	Date time.Date `bson:date`
+	Datetime time.Time `bson:date`
 	Heartrate int `bson:heartrate`
 }
 
