@@ -1,28 +1,32 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
-
-	"github.com/globalsign/mgo"
+	"io/ioutil"
+	"net/http"
 )
 
-type Heartrate struct {
-	Heartrate int `bson:heartrate`
-}
-
 func main() {
-	fmt.Println("Start Batch.")
 
-	session, _ := mgo.Dial("mongodb://localhost")
-	defer session.Close()
-	db := session.DB("fitbit")
-
-	heartrate := Heartrate{60}
-	col := db.C("heart_rate_minute")
-	err := col.Insert(heartrate)
+	response, err = http.DefaultClient.Do(&http.Request{
+		URL:    "https://api.fitbit.com/1/user/-/activities/heart/date/2019-02-09/1d.json",
+		Method: "GET",
+		Header: http.Header{
+			"Content-Type":  {"application/json"},
+			"Authorization": {"Bearer " + ""},
+		},
+	})
+	defer response.Body.Close()
 	if err != nil {
-    	fmt.Println("Insert error:", err)
+		fmt.Println(err)
 	}
 
-	fmt.Println("End Batch.")
+	body, err = ioutil.ReadAll(response.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println(body)
 }
