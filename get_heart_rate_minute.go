@@ -9,24 +9,29 @@ import (
 )
 
 func main() {
+	req, err := http.NewRequest("GET", "https://api.fitbit.com/1/user/-/activities/heart/date/2018-09-01/1d/1min.json", nil)
+    	if err != nil {
+        	fmt.Println(err)
+    	}
 
-	response, err = http.DefaultClient.Do(&http.Request{
-		URL:    "https://api.fitbit.com/1/user/-/activities/heart/date/2019-02-09/1d.json",
-		Method: "GET",
-		Header: http.Header{
-			"Content-Type":  {"application/json"},
-			"Authorization": {"Bearer " + ""},
-		},
-	})
-	defer response.Body.Close()
-	if err != nil {
+	req.Header.Add("Authorization", "Bearer ")
+
+	client := &http.Client{}
+    	resp, err := client.Do(req)
+    	if err != nil {
+        	fmt.Println(err)
+    	}
+    	defer resp.Body.Close()
+
+    	body, err := ioutil.ReadAll(resp.Body)
+    	if err != nil {
+        	fmt.Println(err)
+    	}
+
+	var decode interface{}
+	if err := json.Unmarshal(body, decode); err != nil {
 		fmt.Println(err)
+		return
 	}
-
-	body, err = ioutil.ReadAll(response.Body)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(body)
+	fmt.Println(decode)
 }
