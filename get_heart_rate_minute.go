@@ -1,11 +1,11 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"reflect"
 )
 
 func main() {
@@ -14,7 +14,7 @@ func main() {
         	fmt.Println(err)
     	}
 
-	req.Header.Add("Authorization", "Bearer ")
+	req.Header.Add("Authorization", "")
 
 	client := &http.Client{}
     	resp, err := client.Do(req)
@@ -29,9 +29,13 @@ func main() {
     	}
 
 	var decode interface{}
-	if err := json.Unmarshal(body, decode); err != nil {
-		fmt.Println(err)
+	errUnmarshal := json.Unmarshal(body, &decode)
+	if errUnmarshal != nil {
+		fmt.Println("Unmarshal error:", errUnmarshal)
 		return
 	}
-	fmt.Println(decode)
+
+	var activitiesHeart = decode.(map[string]interface{})
+	fmt.Println(reflect.TypeOf(activitiesHeart))
+	fmt.Println(activitiesHeart)
 }
